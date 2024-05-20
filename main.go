@@ -26,9 +26,9 @@ func main() {
 		fmt.Scan(&query)
 
 		homeDir, _ := os.UserHomeDir()
-		dirs := getDirectories(homeDir)
+		dirs := getDirectories(homeDir)		// directories starting from homeDir
 
-		results := make(chan string)
+		results := make(chan string)		// channel for results
 
 		go func() {
 			for result := range results {
@@ -36,7 +36,7 @@ func main() {
 			}
 		}()
 
-		startTime := time.Now()
+		startTime := time.Now()			// measure performance
 		execute(dirs, query, results)
 		elapsedTime := time.Since(startTime)
 
@@ -53,15 +53,15 @@ func main() {
 }
 
 func execute(dirs []string, query string, results chan<- string) {
-	wg := new(sync.WaitGroup)
+	wg := new(sync.WaitGroup)			// create waitgroup for goroutines
 
 	for _, dir := range dirs {
-		wg.Add(1)
+		wg.Add(1)				// waitgroup + 1 for every iteration
 		go SearchFile(dir, query, results, wg)
 	}
 
-	wg.Wait()
-	close(results)
+	wg.Wait()					// wait for all goroutines to be concluded
+	close(results)					// close results channel
 }
 
 func getDirectories(homeDir string) []string {
@@ -81,14 +81,14 @@ func getDirectories(homeDir string) []string {
 }
 
 func SearchFile(directory string, query string, results chan<- string, wg *sync.WaitGroup) {
+	
 	defer wg.Done()
-
 	filepath.WalkDir(directory, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return nil
 		}
 		if !d.IsDir() && d.Name() == query {
-			results <- path
+			results <- path				// save correct path in results 
 		}
 		return nil
 	})
@@ -97,7 +97,7 @@ func SearchFile(directory string, query string, results chan<- string, wg *sync.
 func clearTerminal() {
 
 	var cmd *exec.Cmd
-	if runtime.GOOS == "windows" {
+	if runtime.GOOS == "windows" {				// check OS and clear terminal
 		cmd = exec.Command("cmd", "/c", "cls")
 	} else {
 		cmd = exec.Command("clear")
