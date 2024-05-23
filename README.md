@@ -1,26 +1,27 @@
 # Pathfinder Tool
 
-Search for specific files (with or without extension) in the filesystem, starting from the user's home directory. 
-Pathfinder Tool uses goroutines to improve performance and allows multiple searches to be performed in succession.
+Pathfinder Tool is a command-line utility written in Go that allows users to search for specific files or files with a specific extension within their file system. It provides a simple and efficient way to navigate through directories and locate desired files using concurrent goroutines, enabling multiprocess search capabilities.
+Pathfinder Tool is designed to be fast, lightweight, and user-friendly, making it ideal for both casual and professional users who need to quickly locate files within their file system.
 
-## Features 
 
-- Searches for specific files in filesystem (from user's home directory)
+## Basic features 
+
+- Searches for specific files in filesystem
 - Uses goroutines to perform searches in parallel
 - Allows multiple searches in succession, without restarting the program
 - Clear terminal between searches for better readability
+- Print the results or save them in a .txt file
 
-## Features to be added
+## Features added
 
 - **Configurable maximum goroutines**
 - **Search entire filesystem**
-- **Parallel search with different priorities**
 - **Search by file extension**
+
+## Future updates
+
+- **Parallel search with different priorities**
 - **Detailed logging**
-
-## Usage
-
-Compile and run the program.
 
 ## Requirements
 
