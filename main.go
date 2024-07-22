@@ -16,7 +16,7 @@ func main() {
 
 	for {
 		var query string
-
+		// Use of /common-nighthawk/go-figure package to create PathFinder Tool logo
 		myFigure := figure.NewColorFigure("PathFinder Tool", "linux", "red", true)
 		myFigure.Print()
 		fmt.Println("Select search type:")
@@ -50,7 +50,7 @@ func main() {
 		var startDir string
 		switch selection {
 		case "1":
-			homeDir, _ := os.UserHomeDir()
+			homeDir, _ := os.UserHomeDir()		// retrieve home directory
 			startDir = homeDir
 		case "2":
 			startDir = "/"
@@ -70,11 +70,11 @@ func main() {
 			maxGoroutines = 10
 		}
 
-		dirs := getDirectories(startDir)
+		dirs := getDirectories(startDir)		// function call getDirectories - retrieves all the directories starting from homeDir
 
 		results := make(chan string)
 		var found []string
-
+		
 		go func() {
 			for result := range results {
 				found = append(found, result)
@@ -82,8 +82,9 @@ func main() {
 		}()
 
 		startTime := time.Now()
-		execute(dirs, query, results, maxGoroutines, searchType)
-		elapsedTime := time.Since(startTime)
+		execute(dirs, query, results, maxGoroutines, searchType)	// function call execute - parameters passed: starting directories, initial query,
+										// results channel, max number of goroutines and search type (file vs extension)
+		elapsedTime := time.Since(startTime)		// time calculator
 
 		fmt.Println("Search executed successfully!")
 		fmt.Printf("\nFound %d paths\n", len(found))
@@ -99,7 +100,7 @@ func main() {
 			}
 		} else if response == "s" {
 
-			saveResults(found)
+			saveResults(found)			// function call saveResults 
 		}
 
 		fmt.Println("Would you like to do another search? (y/n): ")
@@ -109,10 +110,11 @@ func main() {
 			break
 		}
 
-		clearTerminal()
+		clearTerminal()					// function call clearTerminal
 	}
 }
 
+// saveResults is used to save the output paths in a .txt file, easier to analyze rather than standard output
 func saveResults(results []string) {
 
 	file, err := os.Create("paths")
@@ -120,7 +122,7 @@ func saveResults(results []string) {
 		fmt.Println("Error creating file: ", err)
 		return
 	}
-	defer file.Close()
+	defer file.Close()		// postpone closing 
 
 	writer := bufio.NewWriter(file)
 	for _, result := range results {
