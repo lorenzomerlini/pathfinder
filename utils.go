@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"runtime"
 )
-
+// clearTerminal use cmd commands to clean the screen
 func clearTerminal() {
 
 	var cmd *exec.Cmd
