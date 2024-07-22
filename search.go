@@ -8,12 +8,12 @@ import (
 
 func SearchFile(directory string, query string, results chan<- string, searchType string) {
 
-	filepath.WalkDir(directory, func(path string, d fs.DirEntry, err error) error {
+	filepath.WalkDir(directory, func(path string, d fs.DirEntry, err error) error {		// walk the selected directory
 		if err != nil {
 			return nil
 		}
-
-		if searchType == "file" {
+// two different approaches based on the search type
+		if searchType == "file" {		// bool - true!
 			if !d.IsDir() && d.Name() == query {
 				results <- path
 			}
